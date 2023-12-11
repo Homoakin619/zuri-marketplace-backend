@@ -1,2 +1,2 @@
-python3 manage.py migrate --fake
+python3 manage.py inspectdb > MarketPlace/models.py
 python3 manage.py runserver
