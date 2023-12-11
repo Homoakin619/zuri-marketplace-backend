@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 from dotenv import load_dotenv
 import os
+import dj_database_url
 # import sentry_sdk
 
 
@@ -107,17 +108,10 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASE_ROUTERS = ['core.db_routers.DefaultRouter', 'core.db_routers.PrimaryRouter']
-
+DATABASE_URL = os.environ.get('DATABASE_URL')
 DATABASES = {
-         'primary': {
-             'ENGINE': 'django.db.backends.postgresql_psycopg2',
-             'NAME': os.environ.get('DB_NAME'),
-             'HOST': os.environ.get('DB_HOST'),
-             'PORT': os.environ.get('DB_PORT'),
-             'USER': os.environ.get('DB_USER'),
-             'PASSWORD': os.environ.get('DB_PASSWORD'),
-         },
-         'default': {
+          "default": dj_database_url.config(default=DATABASE_URL,conn_max_age=1800),
+           'primary': {
              'ENGINE': 'django.db.backends.postgresql_psycopg2',
              'NAME': os.environ.get('DB_NAME_TWO'),
              'HOST': os.environ.get('DB_HOST_TWO'),
@@ -127,16 +121,22 @@ DATABASES = {
              }
 }
 
-
-
 '''
         "default": {
+         'default': {
+             'ENGINE': 'django.db.backends.postgresql_psycopg2',
+             'NAME': os.environ.get('DB_NAME_TWO'),
+             'HOST': os.environ.get('DB_HOST_TWO'),
+             'PORT': os.environ.get('DB_PORT_TWO'),
+             'USER': os.environ.get('DB_USER_TWO'),
+             'PASSWORD': os.environ.get('DB_PASSWORD_TWO'),
+             }
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
             'NAME': 'railway',
-            'HOST': 'containers-us-west-179.railway.app',
-            'PORT': 6985,
+            'HOST': 'roundhouse.proxy.rlwy.net',
+            'PORT': 47897,
             'USER': 'postgres',
-            'PASSWORD': '6ohmepstiEAAfsHRtc1E',
+            'PASSWORD': '4A1a4CaefAggFAEDC3FFacaG2f64*f2d',
         },
 '''
 
