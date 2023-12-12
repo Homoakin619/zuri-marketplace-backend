@@ -110,15 +110,16 @@ WSGI_APPLICATION = 'core.wsgi.application'
 DATABASE_ROUTERS = ['core.db_routers.DefaultRouter', 'core.db_routers.PrimaryRouter']
 DATABASE_URL = os.environ.get('DATABASE_URL')
 DATABASES = {
+          "primary": dj_database_url.config(default=DATABASE_URL,conn_max_age=1800),
           "default": dj_database_url.config(default=DATABASE_URL,conn_max_age=1800),
-           'primary': {
-             'ENGINE': 'django.db.backends.postgresql_psycopg2',
-             'NAME': os.environ.get('DB_NAME_TWO'),
-             'HOST': os.environ.get('DB_HOST_TWO'),
-             'PORT': os.environ.get('DB_PORT_TWO'),
-             'USER': os.environ.get('DB_USER_TWO'),
-             'PASSWORD': os.environ.get('DB_PASSWORD_TWO'),
-             }
+        #    'primary': {
+        #      'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        #      'NAME': os.environ.get('DB_NAME_TWO'),
+        #      'HOST': os.environ.get('DB_HOST_TWO'),
+        #      'PORT': os.environ.get('DB_PORT_TWO'),
+        #      'USER': os.environ.get('DB_USER_TWO'),
+        #      'PASSWORD': os.environ.get('DB_PASSWORD_TWO'),
+        #      }
 }
 
 '''

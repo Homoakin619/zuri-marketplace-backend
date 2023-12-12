@@ -4,6 +4,7 @@ from MarketPlace.models import Product
 from all_products.serializers import AllProductSerializer as ProductSerializer
 from rest_framework.response import Response
 from rest_framework import status
+import random
 
 class LimitedOfferListView(generics.ListAPIView):
     """
@@ -31,7 +32,7 @@ class LimitedOfferListView(generics.ListAPIView):
         ).exclude(discount_price=0.00)
         return queryset
 
-    def list(self, request, *args, **kwargs):
+    def list(self, *args, **kwargs):
         """
         List limited offers with discounts.
 
@@ -48,22 +49,37 @@ class LimitedOfferListView(generics.ListAPIView):
         queryset = self.get_queryset()
         
         if not queryset.exists():
-            return Response({
+            return {
                 'status': 200,
                 'success': True,
-                'message': 'No discounts found.'
-                }, status=status.HTTP_200_OK)
+                'message': 'List of limited offers',
+                'count': 0,
+                'data': []
+            }
         
-        try:
-            serializer = self.get_serializer(queryset, many=True)
+        else:
+            serialized_data = self.serializer_class(queryset, many=True).data
             response_data = {
                 'status': 200,
                 'success': True,
                 'message': 'List of limited offers',
-                'count': queryset.count(),
-                'results': serializer.data
+                'count': 20,
+                'data': serialized_data[:20]
             }
-            return Response(response_data, status=status.HTTP_200_OK)
+            return response_data;
+
+    def get(self,request):
+        try:
+            response_data = self.list()
+            if len(response_data['data']) < 1:
+                return Response({
+                'status': 200,
+                'success': True,
+                'message': 'No discounts found.',
+                'data': []
+                }, status=status.HTTP_200_OK)
+            else:    
+                return Response(response_data, status=status.HTTP_200_OK)
         except Exception as e:
             error_message = str(e)
             return Response({

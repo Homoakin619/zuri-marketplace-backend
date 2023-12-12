@@ -41,6 +41,7 @@ class ProductRecommendationView(APIView):
             }
             return Response(response_data, status=status.HTTP_200_OK)
         except Exception as e:
+            print(e)
             error_response = {
                 'status': 500,
                 'success': False,
