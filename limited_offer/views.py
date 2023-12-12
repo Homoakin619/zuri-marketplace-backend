@@ -24,12 +24,28 @@ class LimitedOfferListView(generics.ListAPIView):
 
         Returns:
         - queryset: A filtered queryset containing products with discounts.
-        """
-        queryset = Product.objects.filter(
+        """ 
+        total_records = Product.objects.filter(
             discount_price__isnull=False,
             is_deleted='active',
-            admin_status='approved'
-        ).exclude(discount_price=0.00)
+            admin_status='approved').exclude(discount_price=0.00).count()
+        
+        query = Product.objects.filter( discount_price__isnull=False,
+            is_deleted='active',
+            admin_status='approved').exclude(discount_price=0.00).values_list('pk', flat=True)
+
+        if total_records > 0:
+            random_ids = random.sample(list(query), min(10, total_records))       
+            queryset = Product.objects.filter(pk__in=random_ids)
+        else:
+            queryset = Product.objects.none() 
+        
+        # queryset = Product.objects.filter(
+        #     discount_price__isnull=False,
+        #     is_deleted='active',
+        #     admin_status='approved'
+        # ).exclude(discount_price=0.00)
+        
         return queryset
 
     def list(self, *args, **kwargs):
