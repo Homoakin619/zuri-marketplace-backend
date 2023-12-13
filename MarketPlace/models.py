@@ -912,7 +912,7 @@ class User(models.Model):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
     email = models.CharField(max_length=255)
-    role = models.ForeignKey(Role, models.DO_NOTHING, blank=True, null=True)
+    role = models.ForeignKey(Role, models.DO_NOTHING, blank=True, null=True, db_column='roleId')
     section_order = models.TextField(blank=True, null=True)
     password = models.CharField(max_length=255, blank=True, null=True)
     provider = models.CharField(max_length=255, blank=True, null=True)
@@ -923,16 +923,16 @@ class User(models.Model):
     country = models.CharField(max_length=255, blank=True, null=True)
     profile_pic = models.TextField(blank=True, null=True)
     profile_cover_photo = models.TextField(blank=True, null=True)
-    createdat = models.DateTimeField(db_column='createdAt', blank=True, null=True)  # Field name made lowercase.
+    # createdat = models.DateTimeField(db_column='createdAt', blank=True, null=True)  # Field name made lowercase.
     last_login = models.DateTimeField(blank=True, null=True)
     refresh_token = models.TextField(blank=True, null=True)
     is_seller = models.BooleanField(blank=True, null=True)
     slug = models.CharField(max_length=255, blank=True, null=True)
-    two_fa_code = models.CharField(blank=True, null=True)
+    # two_fa_code = models.CharField(blank=True, null=True)
 
     class Meta:
         managed = False
-        db_table = 'user'
+        db_table = 'users'
 
 
 class UserAnalytics(models.Model):
