@@ -35,7 +35,6 @@ wheels/
 .installed.cfg
 *.egg
 env
-.env
 hngenv
 
 # PyInstaller
@@ -93,7 +92,6 @@ celerybeat-schedule
 *.sage.py
 
 # dotenv
-.env
 
 # virtualenv
 .venv
@@ -269,5 +267,4 @@ settings_production.py
 #venv
 .gitignore
 branch_structure.json
-temp_auto_push.bat
-temp_interactive_push.bat
+config.bat
